@@ -3,11 +3,10 @@ import './App.css';
 
 function App() {
   const [ repositories, setRepositories ] = useState([]);
-  const [ user, setUser ] = useState('');
 
     useEffect(() => {
-  async function fetchData(user) {
-    const response = await fetch('https://api.github.com/users/${user}/repos');
+  async function fetchData() {
+    const response = await fetch('https://api.github.com/users/Beto1821/repos');
     const data = await response.json();
     setRepositories(data);
   }
@@ -21,10 +20,6 @@ function App() {
 
     }, [repositories])
 
-    function handleUser({ target }) {
-    const { value } = target;
-    setUser(value);
-  };
 
     function handleFavorite(id) {
       const newRepositories = repositories.map(repo => {
@@ -34,23 +29,16 @@ function App() {
     }
 
   return (
-    <div>
-      <input 
-      type="string"
-      onChange={handleUser}
-      placeholder="Usuario GIthub"
-      />
-        <ul>
-          {repositories.map(repo => (
-            <li key={repo.id}>
-              {repo.name}
-              {repo.favorite && <span>(Favorite)</span> }
-              <button onClick={() => handleFavorite(repo.id)}>Favorite</button>
-            </li>
-            ))}
-        </ul>
-
-    </div>
+    
+      <ul>
+        {repositories.map(repo => (
+          <li key={repo.id}>
+            {repo.name}
+            {repo.favorite && <span>(Favorite)</span> }
+            <button onClick={() => handleFavorite(repo.id)}>Favorite</button>
+          </li>
+          ))}
+      </ul>
   )
 }
 
